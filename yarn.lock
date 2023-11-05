@@ -1407,11 +1407,6 @@
     "@typescript-eslint/types" "6.7.5"
     eslint-visitor-keys "^3.4.1"
 
-"@vite-pwa/sveltekit@^0.2.7":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@vite-pwa/sveltekit/-/sveltekit-0.2.7.tgz#d46c758dcfac049dfc003034ef4875a4b54c7405"
-  integrity sha512-XyEHbXNmBBpfP2EWRsHqoPOFLF/WIuchN6OdtxFojTXV/sSJRWiULxXOzDuApQBfqdsHqlg9AJ9Su8vwjT27KA==
-
 acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"
