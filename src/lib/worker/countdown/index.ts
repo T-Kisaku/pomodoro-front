@@ -29,9 +29,12 @@ onmessage = function ({ data }: MessageEvent<CountdownEvent>) {
             break
     }
     postPomodoroContext()
-    postCountDownData()
+    postCountDownData({message: 'countdown', payload: countdown})
 };
 
+function postCountDownData(event: CountdownData){
+    postMessage(event)
+}
 
 function _setDuration(seconds: number) {
     stop()
@@ -70,10 +73,11 @@ function start() {
                     pomodoroContext.pomodoroCount++
                     pomodoroContext.time = 'work'
                 }
+                stop()
                 const data: ExpiredData = { message: 'expired', payload: pomodoroContext }
                 postMessage(data)
             }
-            postCountDownData()
+            postCountDownData({message: 'countdown', payload: countdown})
         }, 1000);
     }
 }
@@ -84,13 +88,7 @@ function stop() {
         intervalId = null
     }
 }
-
-function postCountDownData() {
-    const data: CountdownData = { message: 'countdown', payload: countdown }
-    postMessage(data);
-}
 function postPomodoroContext() {
-    const data: CountdownData = { message: 'pomodoroContext', payload: pomodoroContext }
-    data.payload.isPlaying = intervalId !== null
-    postMessage(data);
+    pomodoroContext.isPlaying = intervalId !== null
+    postCountDownData({message: 'pomodoroContext', payload: pomodoroContext})
 }

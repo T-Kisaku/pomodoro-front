@@ -27,7 +27,7 @@
 
 </script>
 <MetaTags title={`${minutes}:${seconds}`} description="Example Description." />
-<div class="timer-card">{pomodoroContext?.isPlaying}
+<div class="timer-card">
     <button
         on:click={
             Boolean(pomodoroContext?.isPlaying)
