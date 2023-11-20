@@ -1,26 +1,43 @@
 <script lang="ts">
     import {MetaTags} from 'svelte-meta-tags';
 	import { onMount } from 'svelte'
-    import {useSound} from 'svelte-sound'
     import CountdownWorker from '$lib/worker/countdown/index.js?worker' // https://vitejs.dev/guide/assets.html#importing-script-as-a-worker
 	import  type {CountdownEvent, CountdownData } from '$lib/worker/countdown/type';
-	import  { iniPomodoroContext} from '$lib/worker/countdown/const';
-    let worker: Worker | undefined
+	import  { iniPomodoroContext } from '$lib/worker/countdown/const';
+
     let countdown = iniPomodoroContext.timeCycle.work
     let pomodoroContext = iniPomodoroContext
+
+    let
+        worker: Worker | undefined,
+        clickSound: HTMLAudioElement,
+        expiredSound: HTMLAudioElement
+
     onMount(() => {
-    worker = new CountdownWorker()
-    worker.onmessage = function(e: MessageEvent<CountdownData>){
-        switch(e.data.message){
-        case 'countdown':
-            return countdown = e.data.payload
-        case 'pomodoroContext':
-            return pomodoroContext = e.data.payload
+        worker = new CountdownWorker()
+        clickSound = new Audio('/sounds/mixkit-gate-latch-click-1924.wav')
+        expiredSound = new Audio('/sounds/mixkit-church-bell-calling-603.wav')
+        worker.onmessage = function({data}: MessageEvent<CountdownData>){
+            switch(data.message){
+            case 'countdown':
+                countdown = data.payload
+                break
+            case 'pomodoroContext':
+                pomodoroContext = data.payload
+                break
+            case 'expired':
+                console.log('fire')
+                pomodoroContext = data.payload
+                expiredSound.play()
+                setTimeout(() => expiredSound.pause(), 5500) // 5.5sec
+                break
+            }
         }
-    }
     })
-    const clickSound = useSound('/sounds/mixkit-gate-latch-click-1924.wav', ["click"])
-    $: setCountdownEvent = (event: CountdownEvent) => worker?.postMessage(event)
+    $: setCountdownEvent = (event: CountdownEvent) => {
+        clickSound.play()
+        worker?.postMessage(event)
+    }
 
     $: minutes = `0${Math.floor(countdown / 60)}`.slice(-2)
     $: seconds = `0${countdown % 60}`.slice(-2)
@@ -35,7 +52,6 @@
             : ()=> setCountdownEvent({action: 'start'})
         }
         class="timer-main btn"
-        use:clickSound
     >
         {minutes}:{seconds}
     </button>
@@ -45,16 +61,13 @@
         <button
             class="btn"
             on:click={() => setCountdownEvent({action: 'setDuration', payload: {timeCycle: 'work'}})}
-            use:clickSound
         > Work</button>
         <button class="btn"
             on:click={() => setCountdownEvent({action: 'setDuration', payload: {timeCycle: 'break.short'}})}
-            use:clickSound
         >Short break</button>
         <button
             class="btn"
             on:click={() => setCountdownEvent({action: 'setDuration', payload: {timeCycle: 'break.long'}})}
-            use:clickSound
         >Long break</button>
     </div>
 </div>
