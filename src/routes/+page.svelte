@@ -4,13 +4,11 @@
     import CountdownWorker from '$lib/worker/countdown/index.js?worker' // https://vitejs.dev/guide/assets.html#importing-script-as-a-worker
 	import  type {CountdownEvent, CountdownData } from '$lib/worker/countdown/type';
 	import  { iniPomodoroContext } from '$lib/worker/countdown/const';
-    import type { PageData } from './$houdini'
+    import type {PageData} from './$houdini'
     import Header from '$src/components/Header.svelte'
     import Icon from '@iconify/svelte'
-
+    
     export let data: PageData
-    $: ({Profile} = data)
-
     let countdown = iniPomodoroContext.timeCycle.work
     let pomodoroContext = iniPomodoroContext
 
@@ -53,8 +51,9 @@
             ?pomodoroContext.timeCycle.break.long
             : pomodoroContext.timeCycle.break.short
     $: progressRate = (countdown / initial) * 100
-
+    $: ({ Profile } = data)
 </script>
+
 <MetaTags title={`${minutes}:${seconds}`} description="Example Description." />
 <Header user={$Profile.data?.profile}/>
 <div class="flex flex-col justify-center items-center gap-10">
