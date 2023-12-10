@@ -1,6 +1,6 @@
 export interface PomodoroContext {
     pomodoroCount: number,
-    time: 'work' | 'break',
+    time: 'work' | 'break.short' | 'break.long',
     timeCycle: {
         work: number,
         break: {

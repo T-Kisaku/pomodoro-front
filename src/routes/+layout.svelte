@@ -1,6 +1,6 @@
 <script>
     import { MetaTags } from 'svelte-meta-tags';
-    import '../styles/app.sass'
+    import '../styles/app.css'
 </script>
 
 <MetaTags
@@ -43,5 +43,4 @@
     appId: '1234567890'
   }}
 />
-
 <slot />

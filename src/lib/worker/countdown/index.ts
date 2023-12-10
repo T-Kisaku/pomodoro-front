@@ -51,6 +51,7 @@ function _setDuration(seconds: number) {
     countdown = seconds
 }
 function setDuration(timeCycle: SetDurationEvent['payload']['timeCycle']) {
+    pomodoroContext.time = timeCycle
     switch (timeCycle) {
         case 'work':
             return _setDuration(pomodoroContext.timeCycle.work)
@@ -72,16 +73,14 @@ function start() {
                 // make sounds here
                 // set next timer
                 if (pomodoroContext.time === 'work') {
+                    let time: SetDurationEvent['payload']['timeCycle'] = 'break.short'
                     if ((pomodoroContext.pomodoroCount % 4) === 3) {
-                        setDuration('break.long')
-                    } else {
-                        setDuration('break.short')
+                        time = 'break.long'
                     }
-                    pomodoroContext.time = 'break'
+                    setDuration(time)
                 } else {
                     setDuration('work')
                     pomodoroContext.pomodoroCount++
-                    pomodoroContext.time = 'work'
                 }
 
                 postCountDownData('expired')

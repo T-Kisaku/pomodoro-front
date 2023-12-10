@@ -1,0 +1,52 @@
+interface Basic {
+  created_at: DateTime!
+  deleted: Boolean!
+  id: Int!
+  updated_at: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+"""
+A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address.
+"""
+scalar Email
+
+input IDInput {
+  id: Int!
+}
+
+"""The mutation root type.n"""
+type Mutation {
+  helloWorld: String!
+  updateProfile(input: MutationUpdateProfileInput!): User!
+}
+
+input MutationUpdateProfileInput {
+  username: String
+}
+
+"""The query root type."""
+type Query {
+  getProfile: User!
+  helloWorld: String!
+}
+
+"""
+A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt.
+"""
+scalar URL
+
+type User implements Basic {
+  created_at: DateTime!
+  deleted: Boolean!
+  email: Email!
+  id: Int!
+  isSignuped: Boolean!
+  profile_image_url: String
+  updated_at: DateTime!
+  username: String
+}
