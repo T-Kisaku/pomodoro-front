@@ -1,11 +1,16 @@
-<script>
+<script lang="ts">
+    import Header from '$src/components/Header.svelte';
     import { MetaTags } from 'svelte-meta-tags';
     import '../styles/app.css'
+    import type {LayoutData} from './$houdini'
+
+    export let data: LayoutData
+    $: ({ Profile } = data)
 </script>
 
 <MetaTags
-  title="Using More of Config"
-  titleTemplate="%s | Svelte Meta Tags"
+  title="Pomodoro Timer"
+  titleTemplate="%s | OSS Pomodoro"
   description="This example uses more of the available config options."
   canonical="https://www.canonical.ie/"
   openGraph={{
@@ -43,4 +48,5 @@
     appId: '1234567890'
   }}
 />
+<Header user={$Profile.data?.profile}/>
 <slot />
