@@ -1,0 +1,8 @@
+query Profile {
+	profile: getProfile {
+		isSignuped
+		email
+		username
+		profile_image_url
+	}
+}

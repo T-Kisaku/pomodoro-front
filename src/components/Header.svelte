@@ -2,13 +2,11 @@
     import {PUBLIC_GOOGLE_LOGOUT_URL} from '$env/static/public'
     import type {Profile$result} from '$houdini'
     import Icon from '@iconify/svelte'
-    export let user: Profile$result['profile'] | undefined = undefined
-    // export let 
+    export let user: Profile$result['profile'] | null = null
 
     // @ts-ignore
     const openModalById = (id: string) => document.getElementById(id)?.showModal()
 </script>
-
 <div class="p-3 flex flex-row justify-end gap-5">
     <button class="btn btn-square" on:click={() => openModalById('report')}>
         <Icon icon="mdi:chart-bar" class="text-2xl" />
@@ -16,8 +14,12 @@
     <button class="btn btn-square" on:click={() => openModalById('settings')}>
         <Icon icon="mdi:gear" class="text-2xl" />
     </button>
-    {#if user !== undefined}
-        {#if user.profile_image_url}
+    {#if user === null}
+        <a href="/login" class="btn btn-square">
+            <Icon icon="mdi:account" class="text-2xl" />
+        </a>
+    {:else}
+        {#if user?.profile_image_url}
             <button class="btn btn-circle" on:click={() => openModalById('profile')}>
                 <img src={user.profile_image_url} alt={user.username} class="rounded-full">
             </button>
@@ -26,10 +28,6 @@
                 <Icon icon="mdi:account" class="text-2xl"/>
             </button>
         {/if}
-    {:else}
-        <a href="/login" class="btn btn-square">
-            <Icon icon="mdi:account" class="text-2xl" />
-        </a>
     {/if}
 </div>
 
