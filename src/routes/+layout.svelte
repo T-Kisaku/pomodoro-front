@@ -2,12 +2,9 @@
     import Header from '$src/components/Header.svelte';
     import { MetaTags } from 'svelte-meta-tags';
     import '../styles/app.css'
-    import type {LayoutData} from './$houdini'
-
+	  import type { LayoutData } from './$types';
     export let data: LayoutData
-    $: ({ Profile } = data)
 </script>
-
 <MetaTags
   title="Pomodoro Timer"
   titleTemplate="%s | OSS Pomodoro"
@@ -48,5 +45,5 @@
     appId: '1234567890'
   }}
 />
-<Header user={$Profile.data?.profile}/>
+<Header user={data.profile}/>
 <slot />
