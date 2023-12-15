@@ -1,9 +1,13 @@
 <script lang="ts">
-    import Header from '$src/components/Header.svelte';
-    import { MetaTags } from 'svelte-meta-tags';
-    import '../styles/app.css'
-	  import type { LayoutData } from './$types';
-    export let data: LayoutData
+  import { page } from '$app/stores'
+  import { MetaTags } from 'svelte-meta-tags';
+  import Layout from '$src/components/layout/index.svelte';
+  import config from '$src/lib/config';
+  import '../styles/app.css'
+  import type { LayoutData } from './$types';
+  export let data: LayoutData
+
+
 </script>
 <MetaTags
   title="Pomodoro Timer"
@@ -45,5 +49,10 @@
     appId: '1234567890'
   }}
 />
-<Header user={data.profile}/>
-<slot />
+{#if config.paths.noLayout.includes($page.url.pathname)}
+  <slot />
+{:else}
+  <Layout user={data.profile}>
+    <slot />
+  </Layout>
+{/if}

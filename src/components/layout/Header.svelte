@@ -7,7 +7,7 @@
     // @ts-ignore
     const openModalById = (id: string) => document.getElementById(id)?.showModal()
 </script>
-<div class="p-3 flex flex-row justify-end gap-5">
+<header class="p-3 flex flex-row gap-5 z-10 absolute right-0">
     <button class="btn btn-square" on:click={() => openModalById('report')}>
         <Icon icon="mdi:chart-bar" class="text-2xl" />
     </button>
@@ -29,7 +29,7 @@
             </button>
         {/if}
     {/if}
-</div>
+</header>
 
 <!-- modals -->
 <dialog id="report" class="modal">
@@ -49,15 +49,15 @@
         <div class="p-10 flex flex-col gap-10">
             <div class="flex flex-row justify-between">
                 <label class="form-control">
-                    <div class="label label-text">Work</div>
+                    <span class="label label-text">Work</span>
                     <input type="text" class="input input-bordered w-28" />
                 </label>
                 <label class="form-control">
-                    <div class="label label-text">Short</div>
+                    <span class="label label-text">Short</span>
                     <input type="text" class="input input-bordered w-28" />
                 </label>
                 <label class="form-control">
-                    <div class="label label-text">Long</div>
+                    <span class="label label-text">Long</span>
                     <input type="text" class="input input-bordered w-28" />
                 </label>
             </div>
