@@ -2,6 +2,7 @@
   import { page } from '$app/stores'
   import { MetaTags } from 'svelte-meta-tags';
   import Layout from '$src/components/layout/index.svelte';
+  import { loading } from '$src/lib/stores/utils';
   import config from '$src/lib/config';
   import '../styles/app.css'
   import type { LayoutData } from './$types';
@@ -49,10 +50,18 @@
     appId: '1234567890'
   }}
 />
-{#if config.paths.noLayout.includes($page.url.pathname)}
-  <slot />
+{#if $loading}
+<div class="hero h-screen">
+  <div class="hero-content">
+    <span class="loading loading-ring w-24 text-primary"></span>
+  </div>
+</div>
 {:else}
-  <Layout user={data.profile}>
+  {#if config.paths.noLayout.includes($page.url.pathname)}
     <slot />
-  </Layout>
+  {:else}
+    <Layout user={data.profile}>
+      <slot />
+    </Layout>
+  {/if}
 {/if}
